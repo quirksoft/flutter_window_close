@@ -10,8 +10,6 @@ public class FlutterWindowClosePlugin: NSObject, FlutterPlugin, NSWindowDelegate
         let channel = FlutterMethodChannel(name: "flutter_window_close", binaryMessenger: registrar.messenger)
         let instance = FlutterWindowClosePlugin()
         instance.notificationChannel = FlutterMethodChannel(name: "flutter_window_close_notification", binaryMessenger: registrar.messenger)
-        instance.window = NSApp.windows.first
-        instance.window?.delegate = instance
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
 
@@ -25,6 +23,8 @@ public class FlutterWindowClosePlugin: NSObject, FlutterPlugin, NSWindowDelegate
             result(nil)
         case "init":
             initialized = true
+            window = NSApp.mainWindow
+            window?.delegate = self
             result(nil)
         default:
             result(FlutterMethodNotImplemented)
